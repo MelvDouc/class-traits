@@ -1,11 +1,14 @@
-import { useTrait, useTraits } from "$src/index.js";
+import { UseTraits } from "$src/index.js";
 import { expect } from "chai";
 import { test } from "node:test";
-import { SwimTrait, MammalTrait, GenderTrait } from "./sample-traits.js";
+import { SwimTrait, MammalTrait, GenderTrait, MilkProducingTrait } from "./sample-traits.js";
 
 test("A prototype should have all expected properties.", () => {
-  class _Fish { public readonly hasScales = true; }
-  const Fish = useTrait(_Fish, SwimTrait);
+  @UseTraits(SwimTrait)
+  class Fish {
+    public readonly hasScales = true;
+  }
+  interface Fish extends SwimTrait { }
 
   expect(new Fish().hasScales).to.be.true;
   expect(typeof Fish.prototype.canSwim).to.equal("function");
@@ -13,22 +16,34 @@ test("A prototype should have all expected properties.", () => {
 });
 
 test("Multiple traits should be possible.", () => {
-  class _Dolphin {
+  @UseTraits(SwimTrait, MammalTrait)
+  class Dolphin {
     public constructor(public readonly isMale: boolean) { }
   }
-  const Dolphin = useTraits(_Dolphin, [SwimTrait, MammalTrait]);
+  interface Dolphin extends SwimTrait, MammalTrait { }
+
   expect(typeof Dolphin.prototype.canSwim).to.equal("function");
   expect(new Dolphin(true).producesMilk()).to.be.false;
   expect(new Dolphin(false).producesMilk()).to.be.true;
 });
 
 test("Getters and setters should be preserved.", () => {
-  class _Frog {
+  @UseTraits(GenderTrait)
+  class Frog {
     public constructor(public isMale: boolean) { }
   }
-  const Frog = useTraits(_Frog, [GenderTrait]);
+  interface Frog extends GenderTrait { }
+
   const frog1 = new Frog(true);
   expect(frog1.gender).to.equal("male");
   frog1.gender = "female";
   expect(frog1.gender).to.equal("female");
+});
+
+test("Conflicting tokens", () => {
+  @UseTraits(MammalTrait, MilkProducingTrait)
+  class Cow { }
+  interface Cow extends MammalTrait, MilkProducingTrait { }
+
+  expect(new Cow().producesMilk()).to.be.true;
 });

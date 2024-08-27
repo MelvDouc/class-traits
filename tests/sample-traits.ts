@@ -1,18 +1,31 @@
-export const SwimTrait = {
+export class SwimTrait {
   canSwim() {
     return true;
   }
-};
-export const MammalTrait = {
-  producesMilk(this: { isMale: boolean; }) {
+}
+
+export class MammalTrait {
+  declare public isMale: boolean;
+
+  producesMilk() {
     return !this.isMale;
   }
-};
-export const GenderTrait = {
-  get gender() {
-    return (this as unknown as { isMale: boolean; }).isMale ? "male" : "female";
-  },
-  set gender(value: "male" | "female") {
-    (this as unknown as { isMale: boolean; }).isMale = (value === "male");
+}
+
+export class MilkProducingTrait {
+  producesMilk() {
+    return true;
   }
-};
+}
+
+export class GenderTrait {
+  declare public isMale: boolean;
+
+  get gender() {
+    return this.isMale ? "male" : "female";
+  }
+
+  set gender(value: "male" | "female") {
+    this.isMale = (value === "male");
+  }
+}
