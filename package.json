@@ -1,0 +1,36 @@
+{
+  "name": "class-traits",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    "import": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "require": {
+      "types": "./dist/index.d.cts",
+      "default": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "test": "tsx --test",
+    "build": "tsup src/index.ts --outDir=dist --format=esm,cjs --clean --dts"
+  },
+  "keywords": [
+    "TypeScript",
+    "PHP",
+    "trait",
+    "class"
+  ],
+  "author": "Melvin Doucet <melv.douc@gmail.com>",
+  "license": "ISC",
+  "description": "A small utility package to apply PHP-style traits to JavaScript classes.",
+  "devDependencies": {
+    "@types/chai": "^4.3.18",
+    "@types/node": "^22.5.0",
+    "chai": "^5.1.1",
+    "tsup": "^8.2.4",
+    "tsx": "^4.18.0",
+    "typescript": "^5.5.4"
+  }
+}
