@@ -44,3 +44,30 @@ assert(new Fish().canSwim());
 assert(new Shark(true).canSwim());
 assert(new Shark(false).producesMilk());
 ```
+
+## Gotchas
+
+- When two or more traits share a common property or method, it is the rightmost trait in the array passed into `useTraits` that will take precedence. A shared property with conflicting types will evaluate to `never` but a shared method may be **incorrectly** treated it as an overload.
+
+```typescript
+const DocumentTrait1 = {
+  defaultId: 0,
+  getDatabase() {
+    return null;
+  }
+};
+
+const DocumentTrait2 = {
+  defaultId: "0000",
+  getDatabase() {
+    return "local db";
+  }
+};
+
+class _Doc { }
+const Doc = useTraits(_Doc, [DocumentTrait1, DocumentTrait2]);
+
+const doc1 = new Doc();
+doc1.defaultId; // Expression evaluates to `never`.
+doc1.getDatabase(); // Overloaded as returning `null | string` but it will always return a string.
+```

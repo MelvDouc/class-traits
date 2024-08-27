@@ -1,0 +1,10 @@
+# Editor
+.vscode
+
+# Source files
+src
+tests
+tsconfig.json
+
+# Version control
+.gitignore

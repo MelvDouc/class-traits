@@ -14,7 +14,8 @@
   },
   "scripts": {
     "test": "tsx --test",
-    "build": "tsup src/index.ts --outDir=dist --format=esm,cjs --clean --dts"
+    "build": "tsup src/index.ts --outDir=dist --format=esm,cjs --clean --dts",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "TypeScript",
