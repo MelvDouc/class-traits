@@ -27,7 +27,7 @@ class _Fish {
   public readonly hasScales = true;
 }
 
-class _Shark {
+class _Dolphin {
   public constructor(public readonly isMale: boolean) {}
 }
 ```
@@ -38,11 +38,11 @@ Applying the traits:
 import { useTraits } from "class-traits";
 
 const Fish = useTraits(_Fish, [SwimTrait]);
-const Shark = useTraits(_Shark, [SwimTrait, MammalTrait]);
+const Dolphin = useTraits(_Dolphin, [SwimTrait, MammalTrait]);
 
 assert(new Fish().canSwim());
-assert(new Shark(true).canSwim());
-assert(new Shark(false).producesMilk());
+assert(new Dolphin(true).canSwim());
+assert(new Dolphin(false).producesMilk());
 ```
 
 ## Gotchas
